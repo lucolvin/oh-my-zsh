@@ -5,6 +5,7 @@ import os
 import sys
 import re
 from subprocess import Popen, PIPE, check_output
+from security import safe_command
 
 
 def get_tagname_or_hash():
@@ -26,7 +27,7 @@ def get_tagname_or_hash():
 
 # `git status --porcelain --branch` can collect all information
 # branch, remote_branch, untracked, staged, changed, conflicts, ahead, behind
-po = Popen(['git', 'status', '--porcelain', '--branch'], env=dict(os.environ, LANG="C"), stdout=PIPE, stderr=PIPE)
+po = safe_command.run(Popen, ['git', 'status', '--porcelain', '--branch'], env=dict(os.environ, LANG="C"), stdout=PIPE, stderr=PIPE)
 stdout, sterr = po.communicate()
 if po.returncode != 0:
     sys.exit(0)  # Not a git repository
