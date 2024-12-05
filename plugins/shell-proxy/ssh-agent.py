@@ -2,6 +2,7 @@
 import os
 import subprocess
 import sys
+from security import safe_command
 
 ssh_proxy = os.path.join(os.path.dirname(__file__), "ssh-proxy.py")
 
@@ -13,4 +14,4 @@ argv = [
     "Compression=yes",
 ]
 
-subprocess.call(argv + sys.argv[1:], env=os.environ)
+safe_command.run(subprocess.call, argv + sys.argv[1:], env=os.environ)
